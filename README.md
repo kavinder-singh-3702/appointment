@@ -9,14 +9,15 @@ Small hospital appointment workflow built with an Express/Postgres backend and a
 - `npm run dev` starts the Express server on `http://localhost:4000`.
 
 ### API
-- `GET /api/appointments?skip=0&limit=10` → list appointments sorted by `scheduled_at`.
-- `POST /api/appointments` → create a new appointment. Validates required fields and future date.
+- `GET /api/appointments?skip=0&limit=10&search=&doctor=&status=&start=&end=` → list appointments sorted by `scheduled_at` with optional filters (patient search, doctor match, status, and date range).
+- `POST /api/appointments` → accepts `{ patient_name, doctor, scheduled_at, notes }`, validates required fields and ensures `scheduled_at` is in the future. `status` defaults to `scheduled`.
+- `GET /api/doctors` → returns distinct doctor names from stored appointments for populating dropdowns.
 
 ## Frontend (`frontend`)
 - `npm install`
 - Copy `.env.local.example` to `.env.local` and update `NEXT_PUBLIC_API_BASE_URL`.
 - `npm run dev` starts the Next.js client on `http://localhost:3000` (primary UI under `/appointments`).
-- Components, hooks, and API helpers live under `frontend/components`, `frontend/hooks`, and `frontend/lib` for scalability.
+- Components, hooks, and API helpers live under `frontend/components`, `frontend/hooks`, and `frontend/lib` for scalability. The `/appointments` page includes a filter panel (search, doctor, status, date range), a sortable table, and a modal-driven “Create appointment” workflow.
 
 ## Development Notes
 - The backend uses a modular structure (routes, controllers, services) with centralized validation and error handling.

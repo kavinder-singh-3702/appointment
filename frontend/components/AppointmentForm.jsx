@@ -6,11 +6,10 @@ const INITIAL_FORM = {
   patient_name: '',
   doctor: '',
   scheduled_at: '',
-  status: 'scheduled',
   notes: '',
 };
 
-const AppointmentForm = ({ onSubmit, submitting, error, success, clearMessages }) => {
+const AppointmentForm = ({ onSubmit, submitting, error, clearMessages, onSuccess }) => {
   const [form, setForm] = useState(INITIAL_FORM);
   const [validationError, setValidationError] = useState(null);
 
@@ -46,14 +45,12 @@ const AppointmentForm = ({ onSubmit, submitting, error, success, clearMessages }
     });
     if (result?.success) {
       setForm(INITIAL_FORM);
+      onSuccess?.();
     }
   };
 
   return (
-    <section className="card">
-      <h1>Hospital Appointments</h1>
-      <p className="muted">Create a new appointment and track upcoming visits.</p>
-
+    <section>
       <form className="form" onSubmit={handleSubmit}>
         <div className="grid">
           <label>
@@ -91,15 +88,6 @@ const AppointmentForm = ({ onSubmit, submitting, error, success, clearMessages }
             />
           </label>
 
-          <label>
-            Status
-            <select name="status" value={form.status} onChange={handleChange}>
-              <option value="scheduled">Scheduled</option>
-              <option value="checked_in">Checked In</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </label>
         </div>
 
         <label>
@@ -113,14 +101,13 @@ const AppointmentForm = ({ onSubmit, submitting, error, success, clearMessages }
           />
         </label>
 
-        <button type="submit" disabled={submitting}>
+        <button type="submit" className="primary" disabled={submitting}>
           {submitting ? 'Saving...' : 'Schedule appointment'}
         </button>
       </form>
 
       {validationError && <p className="alert error">{validationError}</p>}
       {error && <p className="alert error">{error}</p>}
-      {success && <p className="alert success">{success}</p>}
     </section>
   );
 };

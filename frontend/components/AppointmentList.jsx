@@ -2,14 +2,22 @@
 
 import StatusBadge from './StatusBadge.jsx';
 
-const AppointmentList = ({ appointments = [], loading, onRefresh }) => {
+const AppointmentList = ({ appointments = [], loading, onRefresh, onCreate }) => {
   return (
     <section className="card">
       <div className="list-header">
-        <h2>Upcoming appointments</h2>
-        <button type="button" onClick={onRefresh} disabled={loading}>
-          {loading ? 'Refreshing...' : 'Refresh'}
-        </button>
+        <div>
+          <h2>Upcoming appointments</h2>
+          <p className="muted small">Keep track of patients and clinicians at a glance.</p>
+        </div>
+        <div className="list-actions">
+          <button type="button" className="ghost" onClick={onRefresh} disabled={loading}>
+            {loading ? 'Refreshing…' : 'Refresh'}
+          </button>
+          <button type="button" onClick={onCreate}>
+            Create appointment
+          </button>
+        </div>
       </div>
 
       {loading && <p className="muted">Loading appointments…</p>}

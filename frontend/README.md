@@ -14,4 +14,4 @@ Appointment dashboard built with Next.js 14 app router. Main UX lives under `/ap
 3. `npm run dev` to start on `http://localhost:3000`.
 4. Visit `http://localhost:3000/appointments` to use the UI (root path redirects there).
 
-The `/appointments` page shows a responsive table of appointments, includes a form with client-side validation (required fields + future datetime), refresh controls, and success/error messaging.
+The `/appointments` page shows a responsive table plus a filter panel (patient search, doctor/status selects, date window). Doctor values are fetched from `/api/doctors`. Creating appointments happens through a modal with client-side validation for required fields and future datetime; success/error states surface inline and above the table.

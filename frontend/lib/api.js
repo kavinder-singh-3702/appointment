@@ -9,17 +9,42 @@ const handleResponse = async (response) => {
   return payload?.data ?? null;
 };
 
-export const fetchAppointments = async ({ skip = 0, limit = 25 } = {}) => {
+export const fetchAppointments = async ({
+  skip = 0,
+  limit = 25,
+  search,
+  doctor,
+  status,
+  start,
+  end,
+} = {}) => {
   const searchParams = new URLSearchParams({ skip: String(skip), limit: String(limit) });
+  if (search) searchParams.set('search', search);
+  if (doctor) searchParams.set('doctor', doctor);
+  if (status) searchParams.set('status', status);
+  if (start) searchParams.set('start', start);
+  if (end) searchParams.set('end', end);
+
   const response = await fetch(`${API_BASE_URL}/api/appointments?${searchParams.toString()}`);
   return handleResponse(response);
 };
 
-export const createAppointment = async (payload) => {
+export const fetchDoctors = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/doctors`);
+  return handleResponse(response);
+};
+
+export const createAppointment = async ({ patient_name, doctor, scheduled_at, notes }) => {
+  const body = {
+    patient_name,
+    doctor,
+    scheduled_at,
+    notes: notes || '',
+  };
   const response = await fetch(`${API_BASE_URL}/api/appointments`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
   return handleResponse(response);
 };

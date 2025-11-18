@@ -25,9 +25,17 @@ Express + Postgres API for managing hospital appointments.
 - `DATABASE_URL` (or `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`)
 
 ## API
-- `GET /api/appointments?skip=0&limit=10`
+- `GET /api/appointments?skip=0&limit=10&search=&doctor=&status=&start=&end=`
   - Lists appointments ordered by `scheduled_at` ascending.
+  - Optional filters:
+    - `search` (patient name contains, case-insensitive)
+    - `doctor` (case-insensitive exact match)
+    - `status` (`scheduled`, `checked_in`, `completed`, `cancelled`)
+    - `start` / `end` (ISO strings bounding `scheduled_at`)
 - `POST /api/appointments`
-  - Body: `{ patient_name, doctor, scheduled_at, status?, notes? }`
+  - Body: `{ "patient_name": "...", "doctor": "...", "scheduled_at": "YYYY-MM-DDTHH:MM:SSZ", "notes": "..." }`
   - Validations: required fields + `scheduled_at` must be future date.
+  - `status` defaults to `scheduled` on insert.
   - Returns created appointment with 201 status.
+- `GET /api/doctors`
+  - Returns unique doctor names sorted ascending for populating dropdowns.

@@ -15,7 +15,7 @@ Small hospital appointment workflow built with an Express/Postgres backend and a
 ## Frontend (`frontend`)
 - `npm install`
 - Copy `.env.local.example` to `.env.local` and update `NEXT_PUBLIC_API_BASE_URL`.
-- `npm run dev` starts the Next.js client on `http://localhost:3000`.
+- `npm run dev` starts the Next.js client on `http://localhost:3000` (primary UI under `/appointments`).
 - Components, hooks, and API helpers live under `frontend/components`, `frontend/hooks`, and `frontend/lib` for scalability.
 
 ## Development Notes

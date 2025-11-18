@@ -12,6 +12,14 @@ Express + Postgres API for managing hospital appointments.
 3. Run the SQL file: `psql < schema.sql`.
 4. Start locally with `npm run dev` (or `npm start`).
 
+### Docker
+1. `docker build -t appointment-backend backend/server`
+2. Provide environment variables (e.g. `DATABASE_URL`) when running:
+   ```
+   docker run --env DATABASE_URL=postgres://... -p 4000:4000 appointment-backend
+   ```
+3. Or, from the `backend` directory, run `docker compose up -d` to start both Postgres and the API using `backend/docker-compose.yml`.
+
 ## Environment Variables
 - `PORT` (default `4000`)
 - `DATABASE_URL` (or `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`)

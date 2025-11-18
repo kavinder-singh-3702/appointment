@@ -1,9 +1,9 @@
 # Frontend (Next.js)
 
-Appointment dashboard built with Next.js 14 app router.
+Appointment dashboard built with Next.js 14 app router. Main UX lives under `/appointments`.
 
 ## Structure
-- `app/` – route layouts + global styles.
+- `app/` – route layouts + global styles (`/appointments` is the primary page).
 - `components/` – reusable UI units (form, list, badges).
 - `hooks/` – domain hooks like `useAppointments` for state/data fetching.
 - `lib/` – API utilities and shared helpers.
@@ -12,5 +12,6 @@ Appointment dashboard built with Next.js 14 app router.
 1. `npm install`
 2. Copy `.env.local.example` → `.env.local` and set `NEXT_PUBLIC_API_BASE_URL`.
 3. `npm run dev` to start on `http://localhost:3000`.
+4. Visit `http://localhost:3000/appointments` to use the UI (root path redirects there).
 
-The dashboard lists appointments, refreshes data, and creates new ones via the backend API.
+The `/appointments` page shows a responsive table of appointments, includes a form with client-side validation (required fields + future datetime), refresh controls, and success/error messaging.

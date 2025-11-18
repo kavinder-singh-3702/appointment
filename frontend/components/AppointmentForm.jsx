@@ -12,16 +12,38 @@ const INITIAL_FORM = {
 
 const AppointmentForm = ({ onSubmit, submitting, error, success, clearMessages }) => {
   const [form, setForm] = useState(INITIAL_FORM);
+  const [validationError, setValidationError] = useState(null);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    setValidationError(null);
     clearMessages?.();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = await onSubmit(form);
+    const trimmedName = form.patient_name.trim();
+    const trimmedDoctor = form.doctor.trim();
+    const date = form.scheduled_at ? new Date(form.scheduled_at) : null;
+
+    if (!trimmedName || !trimmedDoctor || !form.scheduled_at) {
+      setValidationError('Patient name, doctor, and schedule time are required.');
+      return;
+    }
+
+    if (!date || Number.isNaN(date.getTime()) || date.getTime() <= Date.now()) {
+      setValidationError('Scheduled time must be a valid future date.');
+      return;
+    }
+
+    setValidationError(null);
+
+    const result = await onSubmit({
+      ...form,
+      patient_name: trimmedName,
+      doctor: trimmedDoctor,
+    });
     if (result?.success) {
       setForm(INITIAL_FORM);
     }
@@ -96,6 +118,7 @@ const AppointmentForm = ({ onSubmit, submitting, error, success, clearMessages }
         </button>
       </form>
 
+      {validationError && <p className="alert error">{validationError}</p>}
       {error && <p className="alert error">{error}</p>}
       {success && <p className="alert success">{success}</p>}
     </section>

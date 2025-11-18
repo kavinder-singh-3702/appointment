@@ -2,7 +2,7 @@
 
 import StatusBadge from './StatusBadge.jsx';
 
-const AppointmentList = ({ appointments, loading, onRefresh }) => {
+const AppointmentList = ({ appointments = [], loading, onRefresh }) => {
   return (
     <section className="card">
       <div className="list-header">
@@ -15,25 +15,41 @@ const AppointmentList = ({ appointments, loading, onRefresh }) => {
       {loading && <p className="muted">Loading appointments…</p>}
       {!loading && appointments.length === 0 && <p className="muted">No appointments scheduled yet.</p>}
 
-      <ul className="list">
-        {appointments.map((appointment) => (
-          <li key={appointment.id} className="list-item">
-            <div>
-              <strong>{appointment.patient_name}</strong>
-              <p className="muted">{appointment.doctor}</p>
-            </div>
-            <div className="right">
-              <StatusBadge status={appointment.status} />
-              <p className="muted small">
-                {new Intl.DateTimeFormat('en-US', {
-                  dateStyle: 'medium',
-                  timeStyle: 'short',
-                }).format(new Date(appointment.scheduled_at))}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ul>
+      {!loading && appointments.length > 0 && (
+        <div className="table-wrapper">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Scheduled</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appointments.map((appointment) => (
+                <tr key={appointment.id}>
+                  <td>
+                    <strong>{appointment.patient_name}</strong>
+                  </td>
+                  <td>{appointment.doctor}</td>
+                  <td>
+                    <span className="muted small">
+                      {new Intl.DateTimeFormat('en-US', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short',
+                      }).format(new Date(appointment.scheduled_at))}
+                    </span>
+                  </td>
+                  <td>
+                    <StatusBadge status={appointment.status} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </section>
   );
 };
